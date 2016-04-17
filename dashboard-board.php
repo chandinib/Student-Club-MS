@@ -27,7 +27,7 @@
 					    background-color:#eeeeee;
 					    color:black;
 					    text-align:center;
-					    height:90px;
+					    height:130px;
 					    margin:0px;
 					    padding-top:20px;
 					}
@@ -63,14 +63,23 @@
 			input[type=checkbox]	{	margin-top:5%;
 									}
 			input[type=image]	{
-									display:block;
-									margin-top:5%;
-									margin-left:auto;
-									margin-right:auto;
+									display:inline-block;
+									margin-top:2%;
+									margin-left:70px;
 									height:30px;
 									width:30px;
 								}
-			button {
+			input[type=text]	{
+									font-family:Font;
+									display:block;
+									margin-top:1%;
+									margin-left:auto;
+									margin-right:auto;
+									width:250px;
+									border-radius: 5px;
+									border:1px solid #0066ff;
+								}
+			button {	display:block;
 					    background-color: #0066ff;
 					    border-radius: 5px;
 					    border-style:none;
@@ -80,53 +89,106 @@
 					    display: inline-block;
 					    font-size: 16px;
 					    width:200px;
+					    margin-left: auto;
+					    margin-right: auto;
 					 }
-			button:hover {
+			button:hover {	display:block;
 						    background-color: #b3d1ff;
+						    border-style:none;
 						    color: #0066ff;
 						    border:1px solid #0066ff;
+						    border-radius: 5px;
+					    	padding: 15px 32px;
+						    text-align: center;
+						    display: inline-block;
+						    font-size: 16px;
+						    width:200px;
+						    margin-left: auto;
+					    	margin-right: auto;
 						}
-			table  {
+			table#boardactivities {
 						margin-top:1%;
-						margin-left: auto;
-						margin-right: auto;
+						align:center;
 
 					}
 
-			tr,td  {
+			tr,td{
 						padding:3%;
 					}
 
+			table#toDoTable {
+						margin-top:1%;
+					}		
 
 		</style>
+
 	</head>
 
-	<body>
 
 		<body>
 			<h1 id="header">Students Club Management System</h1>
 
-			<div id="meetings">
+			<form  id="meetings" action="meetingProcess.php" method="POST">
 			<h3>Meeting Updates</h3>
-			Meeting at 7:30pm in Foodys.<br>
-			<input type="image" src="add.png" style="display:inline-block;width:20px;height:20px;margin-top:1%;margin-bottom:1%;" onmouseover="this.src='addhover.png'" onmouseout="this.src='add.png'">
-			
-			</div>
+
+				<table id="meetingTable" align="center">
+				<?php
+					error_reporting(E_ALL ^ E_DEPRECATED);
+					$con=mysql_connect('localhost','root','');
+					mysql_select_db('iwp');
+					$sqlretrieve1=mysql_query('select * from meetings');
+
+					while($row=mysql_fetch_array($sqlretrieve1))
+					{ ?>
+						<tr>
+						<td><input name="checkbox1[]" type="checkbox" id="checkbox1[]" value=" <?php echo $row['id']; ?> "></td>
+						<td><?php echo $row['meeting']; ?> </td>
+						</tr>
+					<?php } ?>
+				<tr>
+				<td><input type="checkbox" name="checkbox1" ></td>
+				<td><input type="text" name="newMeeting"></td>
+				</tr>
+			</table>
+			<input type="image" src="add.png" style="display:inline-block;width:20px;height:20px;margin-left:0%;margin-top:0%;margin-bottom:0%;" onmouseover="this.src='addhover.png'" onmouseout="this.src='add.png'" value="AddMeeting" formaction="meetingProcess.php">
+			<input type="image" src="delete.png" style="display:inline-block;width:20px;height:20px;margin-left:1%;margin-top:0%;margin-bottom:0%;" onmouseover="this.src='deletehover.png'" onmouseout="this.src='delete.png'" value="deleteMeeting" formaction="meetingDeleteProcess.php" name="deleteMeeting" id="deleteMeeting">
+
+			</form>
 
 			<div id="footer"></div>
 
-			<div id="todo">
 
-			 <h3>Upcoming Tasks</h3>
-			 <input type="checkbox" id="checkbox1">Sign Permission Letter for DSW<br>
-			 <input type="checkbox" id="checkbox2">Approve poster for WebDev Workshop<br>
-			 <input type="checkbox" id="checkbox3">Follow up on sponsorships<br>
-			 <input type="image" src="add.png" onmouseover="this.src='addhover.png'" onmouseout="this.src='add.png'">
-			</div>
+			<form id="todo" action="toDoProcess.php" method="POST">
+			<h3>Upcoming Tasks</h3>
+
+			<table id="toDoTable">
+			<?php
+					error_reporting(E_ALL ^ E_DEPRECATED);
+					$con=mysql_connect('localhost','root','');
+					mysql_select_db('iwp');
+					$sqlretrieve=mysql_query('select * from toDo');
+
+					while($row=mysql_fetch_array($sqlretrieve))
+					{ ?>
+						<tr>
+						<td><input name="checkbox[]" type="checkbox" id="checkbox[]" value=" <?php echo $row['id']; ?> "></td>
+						<td> <?php echo $row['toDo']; ?> </td>
+						</tr>
+					<?php } ?>
+				<tr>
+				<td><input type="checkbox" name="checkbox" ></td>
+				<td><input type="text" name="newToDo"></td>
+			</tr>
+			</table>
+			 <input type="image" src="add.png" onmouseover="this.src='addhover.png'" onmouseout="this.src='add.png'" value="AddToDo" formaction="toDoProcess.php">
+			 <input type="image" src="delete.png" onmouseover="this.src='deletehover.png'" onmouseout="this.src='delete.png'" value="DeleteToDo" formaction="toDoDeleteProcess.php" name="delete" id="delete">
+
+			 </form>
+
 
 			<div id="section">
-			<h3>Core Activities</h3>
-			<table>
+			<h3>Board Activities</h3>
+			<table id="boardactivities" align="center">
 				<tr>
 					<td><button type="button">Events</button></td>
 					<td><button type="button">Projects</button></td>
@@ -147,7 +209,6 @@
 
 			<div id="footer"></div>
 
-</body>
 
 	</body>
 </html>
