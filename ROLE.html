@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+@font-face{
+font-family: myfont;
+src: url(fonts/RobotoSlab-Regular.ttf);         
+}
+html, body {  
+border: 0; 
+padding: 0; 
+margin: 0; 
+height: 100%;
+}
+body {
+background: #b3d1ff;  
+display: flex;  
+justify-content: center;
+align-items: center;
+font-size: 16px;
+}
+
+textarea{
+margin-left: 20px;
+}
+div#banner { 
+position: absolute; 
+top: 0; 
+left: 0; 
+background-color:#0066ff ; 
+width: 100%;
+color: white;
+}
+div#banner-content { 
+width: 800px; 
+margin: 0 auto; 
+padding: 10px; 
+font-size: 40px;
+font-family: myfont;
+text-align: center;
+font-weight: 600;
+}
+table{
+color: #ffffff;
+}
+table#t01 th	{
+    background-color: #0066ff;
+    color: white;
+}
+</style>
+</head>
+<body>
+<div id="banner">
+<div id="banner-content">
+Role
+</div>
+</div>
+<?php
+  $db = mysql_connect("localhost", "root", "");
+  $er = mysql_select_db("ram");
+  
+  $result = mysql_query("SELECT * FROM names");
+?>
+
+<table id=t01 border="2">
+   <tr>
+      <th>Name</th>
+      <th>Username</th>
+      <th>Roll</th>
+    </tr>
+<? php
+    while ($array = mysql_fetch_row($result));
+    {
+        print "<tr> <td>";
+        echo $array[0]; 
+        print "</td> <td>";
+        echo $array[1]; 
+        print "</td> <td>";
+        echo $array[2]; 
+        print "</td> <td>";
+    }
+    echo "</table>
+    
+    
+?>
+</html>
